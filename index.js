@@ -55,21 +55,25 @@ app.post('/calculate',
 
         const response = await openai.chat.completions.create({
             model: "gpt-4o",
-            response_format:{ "type": "json_object" },
+            response_format: { "type": "json_object" },
             messages: [
-              {
-                role: 'system',
-                content: `carrier shipping company rate of increase data  UPS,FedEx JSON data ::: ${JSON.stringify(rateofincrease)}`
-                + `:::. Using the above json data You have to give me rate of increase for carrier ${carrier} in percentage for the following type of charges ::: `+
-                 JSON.stringify(columns)+
-                 " :::. Always give rate of increase in percentage for the next 4 years in the following format : {`<chargetype1>`:{2025: 5.9, 2026: 6.9, 2027: 5.9, 2028: 4.9}, `<chargetype2`:{2025: 5.9, 2026: 6.9, 2027: 5.9, 2028: 4.9}}.  Response should be only JSON format like and nothing else." + "Always give response for the following types of charges ::: "+JSON.stringify(columns) + "::: and always give increase for every type of charges for years 2025,2026,2027,2028. If the inrease is not present in the json you can take rough estimate."
-              },
-              {
-                role: 'user',
-                content: "Give response in JSON format",
-              }
+                {
+                    role: 'system',
+                    content: `You have the following rate of increase data for shipping carriers UPS and FedEx as a JSON object: ::: ${JSON.stringify(rateofincrease)} :::. Your task is to provide the rate of increase in percentage for carrier ${carrier} based on the provided JSON data for the following types of charges: ::: ${JSON.stringify(columns)} :::.
+                    - Always extract the rate of increase directly from the JSON data when available.
+                    - If a charge type's rate of increase for a specific year is missing from the JSON data, provide a rough estimate.
+                    - The response should be in this JSON format: {"<chargeType1>": {"2025": 5.9, "2026": 6.9, "2027": 5.9, "2028": 4.9}, "<chargeType2>": {"2025": 5.9, "2026": 6.9, "2027": 5.9, "2028": 4.9}}.
+                    - Always provide rates for all charges listed in ::: ${JSON.stringify(columns)} ::: for the years 2025, 2026, 2027, and 2028.
+                    - If a rate is not present in the JSON data, you may estimate it.
+                    - Each type of charge should have rate of increase for the years`
+                },
+                {
+                    role: 'user',
+                    content: "Give response in JSON format"
+                }
             ]
         });
+        
 
         const responseContent = response.choices[0].message.content.trim();
         const rateOfIncrease = JSON.parse(responseContent);
