@@ -95,7 +95,7 @@ To test the `/calculate` endpoint with Postman:
 4. Under the `Body` tab, select `form-data`.
 5. Add the following fields:
    - **carrier**: Name of the carrier (e.g., "UPS", "FedEx").
-   - **file**: The Excel file (`.xlsx`) containing the charges data. Ensure the file has a sheet named `datasheet`.
+   - **file**: The Excel file (`.xlsx`) containing the charges data. Ensure the file has a sheet named `datasheet`. File should be in xlsx format and main content should be present in datasheet workbook.
 
 6. Send the request.
 
@@ -116,38 +116,90 @@ Example response:
 
 ```json
 {
-  "totals": {
-    "Shipping": 1500.75,
-    "Handling": 200.25
-  },
-  "rateOfIncrease": {
-    "Shipping": {
-      "2025": 5.9,
-      "2026": 6.9,
-      "2027": 5.9,
-      "2028": 4.9
+    "totals": {
+        "base_rate": 2284623.3,
+        "total_charge": 1431504.84,
+        "das": 20771,
+        "edas": 14806,
+        "delivery_and_returns": 0,
+        "fuel_surcharge": 198766.34
     },
-    "Handling": {
-      "2025": 3.5,
-      "2026": 4.0,
-      "2027": 3.5,
-      "2028": 3.0
-    }
-  },
-  "futureTotals": {
-    "Shipping": {
-      "2025": 1590.94,
-      "2026": 1700.68,
-      "2027": 1800.99,
-      "2028": 1891.04
+    "rateOfIncrease": {
+        "base_rate": {
+            "2025": 3.4,
+            "2026": 3.3,
+            "2027": 3.2,
+            "2028": 1.6
+        },
+        "total_charge": {
+            "2025": 3.3,
+            "2026": 3.2,
+            "2027": 1.6,
+            "2028": 3.1
+        },
+        "das": {
+            "2025": 3.2,
+            "2026": 3.2,
+            "2027": 3.2,
+            "2028": 1.5
+        },
+        "edas": {
+            "2025": 3.3,
+            "2026": 3.3,
+            "2027": 1.6,
+            "2028": 1.6
+        },
+        "delivery_and_returns": {
+            "2025": 3.4,
+            "2026": 3.3,
+            "2027": 1.6,
+            "2028": 1.6
+        },
+        "fuel_surcharge": {
+            "2025": 3.3,
+            "2026": 3.2,
+            "2027": 1.5,
+            "2028": 3.1
+        }
     },
-    "Handling": {
-      "2025": 207.26,
-      "2026": 215.55,
-      "2027": 223.10,
-      "2028": 229.79
+    "futureTotals": {
+        "base_rate": {
+            "2025": 2362300.49,
+            "2026": 2440256.41,
+            "2027": 2518344.62,
+            "2028": 2558638.13
+        },
+        "total_charge": {
+            "2025": 1478744.5,
+            "2026": 1526064.32,
+            "2027": 1550481.35,
+            "2028": 1598546.27
+        },
+        "das": {
+            "2025": 21435.67,
+            "2026": 22121.61,
+            "2027": 22829.5,
+            "2028": 23171.94
+        },
+        "edas": {
+            "2025": 15294.6,
+            "2026": 15799.32,
+            "2027": 16052.11,
+            "2028": 16308.94
+        },
+        "delivery_and_returns": {
+            "2025": 0,
+            "2026": 0,
+            "2027": 0,
+            "2028": 0
+        },
+        "fuel_surcharge": {
+            "2025": 205325.63,
+            "2026": 211896.05,
+            "2027": 215074.49,
+            "2028": 221741.8
+        }
     }
-  }
 }
 ```
 
