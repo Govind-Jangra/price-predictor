@@ -33,8 +33,7 @@ app.post('/calculate',
 
     const workbook = xlsx.readFile(file.path);
     const sheet = workbook.Sheets["datasheet"];
-    const data = xlsx.utils.sheet_to_json(sheet);
-
+    const data = xlsx.utils.sheet_to_json(sheet,{ defval: "" });
     try {
         const headerRow = Object.keys(data[0]);
         const columns = await getColumnsForContract(headerRow);
@@ -65,7 +64,8 @@ app.post('/calculate',
                     - The response should be in this JSON format: {"<chargeType1>": {"2025": 5.9, "2026": 6.9, "2027": 5.9, "2028": 4.9}, "<chargeType2>": {"2025": 5.9, "2026": 6.9, "2027": 5.9, "2028": 4.9}}.
                     - Always provide rates for all charges listed in ::: ${JSON.stringify(columns)} ::: for the years 2025, 2026, 2027, and 2028.
                     - If a rate is not present in the JSON data, you may estimate it.
-                    - Each type of charge should have rate of increase for the years`
+                    - Each type of charge should have rate of increase for the years
+                    - Only provide json without comments`
                 },
                 {
                     role: 'user',
