@@ -119,6 +119,7 @@ Example response:
     "totals": {
         "base_rate": 2284623.3,
         "total_charge": 1431504.84,
+         "discount" : 37.34,
         "das": 20771,
         "edas": 14806,
         "delivery_and_returns": 0,
